@@ -2,7 +2,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 //manejar la conexion con la base de datos de mongo
-const mongoose = require('moongose');
+//ODM - Bases de datos no relaciones
+//ODM - Se asigna entre un modelo de objetos y una base de datosno relacional.
+//ORM - Bases de datos relaciones
+//ORM - Se asigna entre un modelo de objetos y una base de datos relacional.
+const mongoose = require('mongoose');
 //Implemntar y personalizar métodos HTTP
 const methodOverride = require('method-override');
 
@@ -11,6 +15,9 @@ const port = 3000;
 
 const app = express();
 //Middleware
+//las funciones middleware son funcion que tienen acceso al request, repesonse y a la siguiente funcion.
+//Ejecutar cualquier codigo, realizar cambios en el rquest y el response, finalizar ciclos y respuestas,
+//y pueden invocar otars funciones middleware
 //app.use(); -> Middleware
 app.use(express.json());
 app.use(express.urlencoded({
@@ -124,6 +131,14 @@ app.post('/api/posts', verifyToken, (request, response) => {
     })
 })
 
-app.listen(port, host, () => {
-    `Aplicacion funcionando sobre http://${host}:${port}`
+mongoose.connect('mongodb://localhost/my_database', (err, response) => {
+    if(err) {
+        console.log('ERROR al conectarse a la base de datos' + err);
+    }
+
+    else {
+        app.listen(port, host, () => {
+            `Aplicacion funcionando sobre http://${host}:${port}`
+        })
+    }
 })
