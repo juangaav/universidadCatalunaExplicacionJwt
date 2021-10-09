@@ -1,0 +1,25 @@
+{
+  "name": "jwt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run-dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustavoGBlanco/universidadCatalunaExplicacionJwt.git"
+  },
+  "keywords": [],
+  "author": "GustavoGBlanco <gustavogblanco@live.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GustavoGBlanco/universidadCatalunaExplicacionJwt/issues"
+  },
+  "homepage": "https://github.com/GustavoGBlanco/universidadCatalunaExplicacionJwt#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.13"
+  }
+}
