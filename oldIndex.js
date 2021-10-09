@@ -1,6 +1,5 @@
 //Node, express y jwt
 const express = require('express');
-const jsonwebtoken = require('jsonwebtoken');
 
 const host = 'localhost';
 const port = 3000;
