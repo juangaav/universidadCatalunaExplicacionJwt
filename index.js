@@ -9,6 +9,8 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 //Implemntar y personalizar métodos HTTP
 const methodOverride = require('method-override');
+const vehiculoControlador = require('./controllers/vehiculo');
+const vehiculoRutas = express.Router();
 
 const host = 'localhost';
 const port = 3000;
@@ -131,8 +133,12 @@ app.post('/api/posts', verifyToken, (request, response) => {
     })
 })
 
-var userMongoAtlas
-var passwordMongoAtlas
+vehiculoRutas.route('/Vehiculo')
+.get(vehiculoControlador.findAllVehiculos)
+.post(vehiculoControlador.addVehiculo)
+
+var userMongoAtlas = 'pruebadeconcepto';
+var passwordMongoAtlas = 'cPQ9PxAN4y5HyyW';
 var uriMongoAtlas = `mongodb+srv://${userMongoAtlas}:${passwordMongoAtlas}@cluster0.69kx2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 `
 
