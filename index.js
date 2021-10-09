@@ -1,6 +1,10 @@
 //Node, express y jwt
 const express = require('express');
 const jwt = require('jsonwebtoken');
+//manejar la conexion con la base de datos de mongo
+const mongoose = require('moongose');
+//Implemntar y personalizar métodos HTTP
+const methodOverride = require('method-override');
 
 const host = 'localhost';
 const port = 3000;
