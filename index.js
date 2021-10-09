@@ -131,7 +131,12 @@ app.post('/api/posts', verifyToken, (request, response) => {
     })
 })
 
-mongoose.connect('mongodb://localhost/my_database', (err, response) => {
+var userMongoAtlas
+var passwordMongoAtlas
+var uriMongoAtlas = `mongodb+srv://${userMongoAtlas}:${passwordMongoAtlas}@cluster0.69kx2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+`
+
+mongoose.connect(uriMongoAtlas, (err, response) => {
     if(err) {
         console.log('ERROR al conectarse a la base de datos' + err);
     }
