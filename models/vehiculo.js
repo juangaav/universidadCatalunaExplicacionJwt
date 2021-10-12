@@ -12,4 +12,4 @@ const VehiculoSchema = new Schema({
   cilindraje: Number
 });
 
-module.exports = mongoose.model('vehiculo', VehiculoSchema);
+module.exports = mongoose.model('vehiculos', VehiculoSchema);
