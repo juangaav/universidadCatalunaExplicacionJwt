@@ -5,7 +5,7 @@ const vehiculoModelo = require('../models/Vehiculo');
 //Traer toda la informacion
 module.exports.findAllVehiculos = (resquest, response) => {
     console.log('GETALL vehiculos');
-    //find({query}, cllaback) -> query que hacemos para buscar informacion, como en este caso es 
+    //find({query}, callback) -> query que hacemos para buscar informacion, como en este caso es 
     //vacio, nos trae todo la informacion
     vehiculoModelo.find({}, (err, data) => {
         if(err) {
@@ -33,6 +33,44 @@ module.exports.findByIdVehiculo = (request, response) => {
     vehiculoModelo.findOne({idVehiculo: idVehiculo}, (err, vehiculo) => {
         if(err) {
             response.send('El idVehiculo no existe');
+        } else {
+            response.send(vehiculo);
+        }
+    })
+}
+
+//Traer un vehiculo por id
+module.exports.findByRange = (request, response) => {
+    //pedimos el url param que nos envia la ruta
+    const {min, max} = request.query;
+    console.log('GET');
+    const minQuery = (min == undefined ) ? 0 : Number(min);
+    const maxQuery = (max == undefined ) ? Number.MAX_VALUE : Number(max);
+    const query = {$gt: minQuery, $lt: maxQuery};
+    console.log(query);
+
+    //findOne({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
+    //url param
+    vehiculoModelo.find({cilindraje: query}, (err, vehiculo) => {
+        if(err) {
+            response.send('El idVehiculo no existe');
+        } else {
+            response.send(vehiculo);
+        }
+    })
+}
+
+//Traer un vehiculo por marca
+module.exports.findByMarca = (request, response) => {
+    //pedimos el url param que nos envia la ruta
+    const marca = request.params['marca'];
+    console.log('GET');
+    console.log(`marca: ${marca}`);
+    //findOne({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
+    //url param
+    vehiculoModelo.find({marca: marca}, (err, vehiculo) => {
+        if(err) {
+            response.send('No hay vehiculos con esa marca');
         } else {
             response.send(vehiculo);
         }

@@ -7,6 +7,8 @@ const vehiculoController = require('../controllers/vehiculoController')
 router.get('/', vehiculoController.findAllVehiculos);
 //ruta para traer un vehiculo en especial
 router.get('/vehiculo/:idvehiculo', vehiculoController.findByIdVehiculo);
+//ruta para traer un vehiculo en especial por marca
+router.get('/vehiculoCilindraje/range', vehiculoController.findByRange);
 //ruta para crear un vehiculo
 router.post('/vehiculo', vehiculoController.addVehiculo);
 //ruta para editar un vehiculo
