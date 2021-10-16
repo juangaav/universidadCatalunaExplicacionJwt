@@ -51,7 +51,7 @@ module.exports.findByRange = (request, response) => {
 
     //findOne({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
     //url param
-    vehiculoModelo.find({cilindraje: query}, (err, vehiculo) => {
+    vehiculoModelo.find({cilindraje: query},'color marca',(err, vehiculo) => {
         if(err) {
             response.send('El idVehiculo no existe');
         } else {
