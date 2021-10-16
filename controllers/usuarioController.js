@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const usuarioModelo = require('../models/Usuario');
 const jwt = require('jsonwebtoken');
 
-const generarToken = (usuario, password) => {
+const generarToken = (usuario) => {
     return new Promise((resolve, reject) => {
         jwt.sign({ usuario, password }, 'secretKey', (err, token) => {
             if(err) {
@@ -37,7 +37,7 @@ module.exports.token = (request, response) => {
             } else {
                 generarToken(request.body.username, request.body.password).then(token => {
                     response.status(200).send({token});
-                }).catch(error => {
+                }).catch(() => {
                     response.status(500).json({error: 'Intentelo mas tarde'});
                 });
             }
