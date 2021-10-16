@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const usuarioModelo = require('../models/Usuario');
 const jwt = require('jsonwebtoken');
 
-const generarToken = (usuario) => {
+const generarToken = (usuario, password) => {
     return new Promise((resolve, reject) => {
         jwt.sign({ usuario, password }, 'secretKey', (err, token) => {
             if(err) {
