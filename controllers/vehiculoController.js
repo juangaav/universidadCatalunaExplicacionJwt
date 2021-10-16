@@ -8,12 +8,12 @@ module.exports.findAllVehiculos = (resquest, response) => {
     //find({query}, callback) -> query que hacemos para buscar informacion, como en este caso es 
     //vacio, nos trae todo la informacion
     vehiculoModelo.find({}, (err, data) => {
-        if(err) {
+        if (err) {
             response.send(500).json({
                 message: 'Error a ejecutar el metodo findAll()'
             });
         } else {
-            if(data.length == 0) {
+            if (data.length == 0) {
                 response.status(204).send(data);
             } else {
                 response.status(200).send(data);
@@ -30,8 +30,8 @@ module.exports.findByIdVehiculo = (request, response) => {
     console.log(`id: ${idVehiculo}`);
     //findOne({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
     //url param
-    vehiculoModelo.findOne({idVehiculo: idVehiculo}, (err, vehiculo) => {
-        if(err) {
+    vehiculoModelo.findOne({ idVehiculo: idVehiculo }, (err, vehiculo) => {
+        if (err) {
             response.send('El idVehiculo no existe');
         } else {
             response.send(vehiculo);
@@ -42,17 +42,17 @@ module.exports.findByIdVehiculo = (request, response) => {
 //Traer un vehiculo por id
 module.exports.findByRange = (request, response) => {
     //pedimos el url param que nos envia la ruta
-    const {min, max} = request.query;
+    const { min, max } = request.query;
     console.log('GET');
-    const minQuery = (min == undefined ) ? 0 : Number(min);
-    const maxQuery = (max == undefined ) ? Number.MAX_VALUE : Number(max);
-    const query = {$gt: minQuery, $lt: maxQuery};
+    const minQuery = (min == undefined) ? 0 : Number(min);
+    const maxQuery = (max == undefined) ? Number.MAX_VALUE : Number(max);
+    const query = { $gt: minQuery, $lt: maxQuery };
     console.log(query);
 
     //findOne({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
     //url param
-    vehiculoModelo.find({cilindraje: query},'color marca',(err, vehiculo) => {
-        if(err) {
+    vehiculoModelo.find({ cilindraje: query }, 'color marca', (err, vehiculo) => {
+        if (err) {
             response.send('El idVehiculo no existe');
         } else {
             response.send(vehiculo);
@@ -68,8 +68,8 @@ module.exports.findByMarca = (request, response) => {
     console.log(`marca: ${marca}`);
     //findOne({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
     //url param
-    vehiculoModelo.find({marca: marca}, (err, vehiculo) => {
-        if(err) {
+    vehiculoModelo.find({ marca: marca }, (err, vehiculo) => {
+        if (err) {
             response.send('No hay vehiculos con esa marca');
         } else {
             response.send(vehiculo);
@@ -93,7 +93,7 @@ module.exports.addVehiculo = (request, response) => {
     //modelo.save() -> Esta diseñado para insertar documentos llamando el modelo que se a creado
     //sin necesidad de usar los metodos insert() o insertMany()
     vehiculo.save((err, vehiculo) => {
-        if(err) {
+        if (err) {
             return response.status(500).send(err.message);
         } else {
             response.send(vehiculo);
@@ -114,8 +114,8 @@ module.exports.updateVehiculo = (request, response) => {
 
     //findOneAndUpdate({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
     //url param. Este metodo me busca solo un documento y si lo encuentra lo actualiza
-    vehiculoModelo.findOneAndUpdate({idVehiculo: id}, {modelo, color, marca, cilindraje}, (err, vehiculo) => {
-        if(err) {
+    vehiculoModelo.findOneAndUpdate({ idVehiculo: id }, { modelo, color, marca, cilindraje }, (err, vehiculo) => {
+        if (err) {
             return response.status(500).send(err.message);
         } else {
             response.send(vehiculo);
@@ -132,8 +132,8 @@ module.exports.deleteVehiculo = (request, response) => {
 
     //findOneAndDelete({query}, cllaback) -> query que hacemos para buscar el idVehiculo que enviamos como un 
     //url param. Este metodo me busca solo un documento y si lo encuentra lo elimina
-    vehiculoModelo.findOneAndDelete({idVehiculo: id}, (err, vehiculo) => {
-        if(err) {
+    vehiculoModelo.findOneAndDelete({ idVehiculo: id }, (err, vehiculo) => {
+        if (err) {
             return response.status(500).send(err.message);
         } else {
             response.send(vehiculo);
