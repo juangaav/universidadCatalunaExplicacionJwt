@@ -12,7 +12,6 @@ const verifyToken = (token, secretKey) => {
                 reject(err);
             }
             else {
-                console.log('auth', auth);
                 resolve(auth);
             }
         })
@@ -21,7 +20,6 @@ const verifyToken = (token, secretKey) => {
 
 //Traer toda la informacion
 module.exports.findAllVehiculos = (request, response) => {
-    console.log('GETALL vehiculos');
     //find({query}, callback) -> query que hacemos para buscar informacion, como en este caso es 
     //vacio, nos trae todo la informacion
     const token = request.headers['authorization'];
@@ -31,7 +29,6 @@ module.exports.findAllVehiculos = (request, response) => {
         response.sendStatus(401);
     }else {
         verifyToken(token, secretKey).then(token => {
-            console.log(token);
             vehiculoModelo.find({}, (err, data) => {
                 if (err) {
                     response.send(500).json({
@@ -45,7 +42,8 @@ module.exports.findAllVehiculos = (request, response) => {
                     }
                 }
             })
-        }).catch(() => {
+        }).catch((err) => {
+            console.log(err);
             response.status(403).json({message: 'fallas en la autenticacion'});
             //response.status(403).send('<string>');
             //response.status(403).json({json});

@@ -4,12 +4,13 @@ const usuarioModelo = require('../models/Usuario');
 const jwt = require('jsonwebtoken');
 
 const generarToken = (usuario, password) => {
+    const secretKey = String(mongoose.Types.ObjectId());
     return new Promise((resolve, reject) => {
-        jwt.sign({ usuario, password }, 'secretKey', (err, token) => {
+        jwt.sign({ usuario, password }, secretKey, (err, token) => {
             if(err) {
                 reject(err)
             } else {
-                resolve(token)
+                resolve({token, secretKey})
             }
         });
     })
@@ -22,8 +23,6 @@ const generarToken = (usuario, password) => {
 
 //Crea token
 module.exports.token = (request, response) => {
-    console.log('Token usuario');
-    console.log(request.body);
     //find({query}, callback) -> query que hacemos para buscar informacion, como en este caso es 
     //vacio, nos trae todo la informacion
     usuarioModelo.find({username: request.body.username, password: request.body.password}, (err, data) => {
@@ -36,7 +35,7 @@ module.exports.token = (request, response) => {
                 response.sendStatus(403);
             } else {
                 generarToken(request.body.username, request.body.password).then(token => {
-                    response.status(200).send({token});
+                    response.status(200).send(token);
                 }).catch(() => {
                     response.status(500).json({error: 'Intentelo mas tarde'});
                 });
