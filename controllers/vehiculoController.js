@@ -1,25 +1,56 @@
 const { request } = require('express');
 const mongoose = require('mongoose');
 const vehiculoModelo = require('../models/Vehiculo');
+const jwt = require('jsonwebtoken');
+
+const verifyToken = (token, secretKey) => {
+    //rescatamos la propiedad authorization que viaja en el requestHEader desde mi cliente al servidor
+    const bearerToken = token.split(' ')[1];
+    return new Promise((resolve, reject) => {
+        jwt.verify(bearerToken, secretKey, (err, auth) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                console.log('auth', auth);
+                resolve(auth);
+            }
+        })
+    })
+}
 
 //Traer toda la informacion
-module.exports.findAllVehiculos = (resquest, response) => {
+module.exports.findAllVehiculos = (request, response) => {
     console.log('GETALL vehiculos');
     //find({query}, callback) -> query que hacemos para buscar informacion, como en este caso es 
     //vacio, nos trae todo la informacion
-    vehiculoModelo.find({}, (err, data) => {
-        if (err) {
-            response.send(500).json({
-                message: 'Error a ejecutar el metodo findAll()'
-            });
-        } else {
-            if (data.length == 0) {
-                response.status(204).send(data);
-            } else {
-                response.status(200).send(data);
-            }
-        }
-    })
+    const token = request.headers['authorization'];
+    const secretKey = request.headers['secretkey'];
+
+    if(token == undefined || secretKey == undefined) {
+        response.sendStatus(401);
+    }else {
+        verifyToken(token, secretKey).then(token => {
+            console.log(token);
+            vehiculoModelo.find({}, (err, data) => {
+                if (err) {
+                    response.send(500).json({
+                        message: 'Error a ejecutar el metodo findAll()'
+                    });
+                } else {
+                    if (data.length == 0) {
+                        response.status(204).send(data);
+                    } else {
+                        response.status(200).send(data);
+                    }
+                }
+            })
+        }).catch(() => {
+            response.status(403).json({message: 'fallas en la autenticacion'});
+            //response.status(403).send('<string>');
+            //response.status(403).json({json});
+        });
+    }
 }
 
 //Traer un vehiculo por id
